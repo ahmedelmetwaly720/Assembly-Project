@@ -1,0 +1,30 @@
+; Calculate X^2 + Y + XY where X=12, Y=10
+; Result: 144 + 10 + 120 = 274
+
+ORG 100h           ; .COM programs start at offset 100h 
+include 'emu8086.inc'
+
+MOV AX, 12         ; X = 12
+MOV BX, 10         ; Y = 10
+
+; Calculate X^2
+MUL AX             ; AX = AX * AX = 12 * 12 = 144
+MOV CX, AX         ; Store X^2 in CX
+
+; Calculate XY
+MOV AX, 12         ; Reload X
+MUL BX             ; AX = X * Y = 12 * 10 = 120
+ADD CX, AX         ; CX = X^2 + XY = 144 + 120 = 264
+
+; Add Y
+ADD CX, BX         ; CX = X^2 + XY + Y = 264 + 10 = 274
+
+; Display result (274 = 0112h)
+MOV AX, CX         ; Move result to AX for display   
+CALL PRINT_NUM
+
+
+DEFINE_PRINT_NUM
+DEFINE_PRINT_NUM_UNS
+
+RET
